@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum HandType
+{
+    Rock,       // グー
+    Scissors,   // チョキ
+    Paper,      // パー
+}
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Player player = null;
@@ -11,19 +18,20 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Hello World!");
 
-        if(player != null)
+        if (player != null)
         {
             player.Initialize();
-        }else
+        }
+        else
         {
             Debug.LogError("Playerがnullです");
         }
     }
-   
+
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
