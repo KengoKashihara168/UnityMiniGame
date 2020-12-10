@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class HandManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Player player = null;
+
+    public void Initialize()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnHandButton(int handNum)
     {
-        
+        player.SetHand(handNum);
     }
 }

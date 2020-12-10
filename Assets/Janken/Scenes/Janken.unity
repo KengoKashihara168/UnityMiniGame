@@ -202,7 +202,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 38369664}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 420807578}
+        m_MethodName: OnHandButton
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &38369664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,6 +356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b35ffccf210f429e93ba7dd3ade26b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 740568781}
 --- !u!4 &420807579
 Transform:
   m_ObjectHideFlags: 0
@@ -357,7 +369,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &602953774
 GameObject:
@@ -477,7 +489,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1163069594
 GameObject:
@@ -560,7 +572,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1163069597}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 420807578}
+        m_MethodName: OnHandButton
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1163069597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -661,7 +684,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1310575744
 GameObject:
@@ -861,6 +884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e72a4ec6646e49568452c7be8ec52c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  handManager: {fileID: 420807578}
   player: {fileID: 740568781}
 --- !u!4 &1655113080
 Transform:
@@ -1048,7 +1072,7 @@ RectTransform:
   - {fileID: 1163069595}
   - {fileID: 1725542286}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1219,7 +1243,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2069519863}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 420807578}
+        m_MethodName: OnHandButton
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2069519863
 MonoBehaviour:
   m_ObjectHideFlags: 0

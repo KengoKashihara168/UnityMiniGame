@@ -18,20 +18,11 @@ public class Player : MonoBehaviour
     /// プレイヤーの手を設定
     /// </summary>
     /// <param name="hand">入力された手</param>
-    public void SetHandType(HandType hand)
+    public void SetHand(int hand)
     {
-        switch (hand)
-        {
-            case HandType.Rock:
-                handNum = 0;
-                break;
-            case HandType.Scissors:
-                handNum = 1;
-                break;
-            case HandType.Paper:
-                handNum = 2;
-                break;
-        }
-        Debug.Log(hand + " = " + handNum);
+        if (hand < 0) return;
+        if (hand > 2) return;
+        Debug.Log("Hand = " + hand);
+        handNum = hand;
     }
 }
