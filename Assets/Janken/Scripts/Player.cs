@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     /// </summary>
     public void Initialize()
     {
-        Debug.Log("Player Initialize");
+        Debug.Log("Player : Initialize");
     }
 
     /// <summary>
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     /// <param name="hand">入力された手</param>
     public void SetHand(int hand)
     {
-        Debug.Log("Hand = " + hand);
+        Debug.Log("Player : Hand = " + hand);
         handNum = hand;
     }
 }

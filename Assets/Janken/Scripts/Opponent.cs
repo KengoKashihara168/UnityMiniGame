@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class Opponent : MonoBehaviour
 {
+    private readonly string[] HandTexts = { "グー", "チョキ", "パー" };
+
     [SerializeField] private Text handText = null;
     private int handNum = 0;
-    private readonly string[] HandTexts = { "グー", "チョキ", "パー" };
 
     /// <summary>
     /// 初期化
