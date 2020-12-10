@@ -20,8 +20,6 @@ public class Player : MonoBehaviour
     /// <param name="hand">入力された手</param>
     public void SetHand(int hand)
     {
-        if (hand < 0) return;
-        if (hand > 2) return;
         Debug.Log("Hand = " + hand);
         handNum = hand;
     }

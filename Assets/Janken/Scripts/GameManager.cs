@@ -11,7 +11,6 @@ public enum HandType
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private HandManager handManager = null;
     [SerializeField] private Player player = null;
 
     // Start is called before the first frame update
@@ -19,7 +18,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Hello World!");
 
-        handManager.Initialize();
         player.Initialize();
     }
 
@@ -27,5 +25,11 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void OnHandButton(int handNum)
+    {
+        Debug.Assert(handNum >= 0 && handNum <= 2, "入力値が不正です");
+        player.SetHand(handNum);
     }
 }
