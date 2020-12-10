@@ -12,6 +12,7 @@ public enum HandType
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Player player = null;
+    [SerializeField] private Opponent opponent = null;
 
     // Start is called before the first frame update
     void Start()
@@ -19,12 +20,13 @@ public class GameManager : MonoBehaviour
         Debug.Log("Hello World!");
 
         player.Initialize();
+        opponent.Initialize();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        opponent.UpdateHand();
     }
 
     public void OnHandButton(int handNum)
