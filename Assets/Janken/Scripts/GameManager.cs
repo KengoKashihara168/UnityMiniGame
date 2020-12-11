@@ -27,6 +27,10 @@ public class GameManager : MonoBehaviour
         {
             opponent.UpdateHand();
         }
+        else
+        {
+            int result = JudgeResult(player.GetHand(), opponent.GetHand());
+        }
     }
 
     /// <summary>
@@ -35,11 +39,26 @@ public class GameManager : MonoBehaviour
     /// <param name="handNum">手の数字</param>
     public void OnHandButton(int handNum)
     {
-        Debug.Assert(handNum >= 0 && handNum <= 2, "入力値が不正です");
+        Debug.Assert(handNum >= 0 && handNum <= MaxHandNum - 1, "入力値が不正です");
         // 手を設定
         player.SetHand(handNum);
         opponent.DecideHand();
 
         isStop = true;
+    }
+
+    /// <summary>
+    /// 結果判定
+    /// </summary>
+    /// <param name="playerNum">プレイヤーの手の数字</param>
+    /// <param name="opponentNum">対戦相手の手の数字</param>
+    /// <returns></returns>
+    private int JudgeResult(int playerNum, int opponentNum)
+    {
+        int result = -1;
+        result = (playerNum - opponentNum + 3) % 3;
+        Debug.Log("GameManager : result = " + result);
+
+        return result;
     }
 }

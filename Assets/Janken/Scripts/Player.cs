@@ -23,4 +23,13 @@ public class Player : MonoBehaviour
         Debug.Log("Player : Hand = " + hand);
         handNum = hand;
     }
+
+    /// <summary>
+    /// 手の取得
+    /// </summary>
+    /// <returns>手の数字</returns>
+    public int GetHand()
+    {
+        return handNum;
+    }
 }

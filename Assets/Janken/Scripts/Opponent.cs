@@ -47,4 +47,13 @@ public class Opponent : MonoBehaviour
         handNum = rand;
         handText.text = HandTexts[rand];
     }
+
+    /// <summary>
+    /// 手の取得
+    /// </summary>
+    /// <returns>手の数字</returns>
+    public int GetHand()
+    {
+        return handNum;
+    }
 }
