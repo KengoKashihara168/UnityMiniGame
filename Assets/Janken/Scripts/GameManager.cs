@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Player player = null;
     [SerializeField] private Opponent opponent = null;
+    [SerializeField] private CallSign callSign = null;
 
     private bool isStop = false;
 
@@ -15,9 +16,19 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Debug.Log("GameManager : Start");
+        Initialize();
+    }
 
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    private void Initialize()
+    {
+        Debug.Log("GameManager : Initialize");
         player.Initialize();
         opponent.Initialize();
+        callSign.Initialize();
+        isStop = false;
     }
 
     // Update is called once per frame
@@ -30,6 +41,7 @@ public class GameManager : MonoBehaviour
         else
         {
             int result = JudgeResult(player.GetHand(), opponent.GetHand());
+            ReflectResult(result);
         }
     }
 
@@ -60,5 +72,25 @@ public class GameManager : MonoBehaviour
         Debug.Log("GameManager : result = " + result);
 
         return result;
+    }
+
+    // 結果の反映
+    private void ReflectResult(int result)
+    {
+        Debug.Assert(result >= 0 && result <= 2, "結果の数値が間違っています");
+        switch (result)
+        {
+            case 0:
+                // あいこ
+                Initialize();
+                callSign.SetDrawCall();
+                break;
+            case 1:
+                // 勝ち
+                break;
+            case 2:
+                // 負け
+                break;
+        }
     }
 }
