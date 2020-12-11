@@ -21,6 +21,9 @@ public class Opponent : MonoBehaviour
         handText.text = HandTexts[0];
     }
 
+    /// <summary>
+    /// 更新
+    /// </summary>
     public void UpdateHand()
     {
         changeCount += Time.deltaTime;
@@ -31,5 +34,17 @@ public class Opponent : MonoBehaviour
 
         handText.text = HandTexts[handNum];
         changeCount = 0.0f;
+    }
+
+    /// <summary>
+    /// 手を決定
+    /// </summary>
+    public void DecideHand()
+    {
+        int rand = Random.Range(0, GameManager.MaxHandNum);
+        Debug.Log("Opponent : rand = " + rand);
+
+        handNum = rand;
+        handText.text = HandTexts[rand];
     }
 }
