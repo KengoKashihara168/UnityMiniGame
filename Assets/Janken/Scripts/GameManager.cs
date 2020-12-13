@@ -90,9 +90,11 @@ public class GameManager : MonoBehaviour
                 break;
             case 1:
                 // 勝ち
+                player.SetResult(true);
                 break;
             case 2:
                 // 負け
+                player.SetResult(false);
                 break;
         }
     }
