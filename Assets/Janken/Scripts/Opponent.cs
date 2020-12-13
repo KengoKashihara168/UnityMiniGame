@@ -30,7 +30,7 @@ public class Opponent : MonoBehaviour
         if (changeCount < changeTime) return;
 
         handNum = (handNum + 1) % 3;
-        Debug.Log("Opponent : handNum = " + handNum);
+        //Debug.Log("Opponent : handNum = " + handNum);
 
         handText.text = HandTexts[handNum];
         changeCount = 0.0f;

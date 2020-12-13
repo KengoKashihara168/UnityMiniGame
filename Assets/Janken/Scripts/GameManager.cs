@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static readonly int MaxHandNum = 3;
 
+    [SerializeField] private ButtonManager buttonManager = null;
     [SerializeField] private Player player = null;
     [SerializeField] private Opponent opponent = null;
     [SerializeField] private CallSign callSign = null;
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
     private void Initialize()
     {
         Debug.Log("GameManager : Initialize");
+        buttonManager.Initialize();
         player.Initialize();
         opponent.Initialize();
         callSign.Initialize();
@@ -78,11 +80,12 @@ public class GameManager : MonoBehaviour
     private void ReflectResult(int result)
     {
         Debug.Assert(result >= 0 && result <= 2, "結果の数値が間違っています");
+        buttonManager.DisableAllButton();
         switch (result)
         {
             case 0:
                 // あいこ
-                Initialize();
+                //Initialize();
                 callSign.SetDrawCall();
                 break;
             case 1:
