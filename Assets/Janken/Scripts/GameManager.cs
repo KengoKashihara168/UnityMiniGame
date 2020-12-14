@@ -47,9 +47,8 @@ public class GameManager : MonoBehaviour
         {
             if (stoppedTime >= StopTime)
             {
-                buttonManager.EnableAllButton();
-                stoppedTime = 0.0f;
-                isStop = false;
+                // 再開
+                Restart();
             }
             else
             {
@@ -67,11 +66,32 @@ public class GameManager : MonoBehaviour
     {
         Debug.Assert(handNum >= 0 && handNum <= MaxHandNum - 1, "入力値が不正です");
         // 手を設定
-        player.SetHand(handNum);
-        opponent.DecideHand();
+        SetHand(handNum);
 
         // 結果を設定
+        SetResult();
+    }
+
+    /// <summary>
+    /// 手の設定
+    /// </summary>
+    /// <param name="handNum">手の数字</param>
+    private void SetHand(int handNum)
+    {
+        // プレイヤー
+        player.SetHand(handNum);
+        // 対戦相手
+        opponent.DecideHand();
+    }
+
+    /// <summary>
+    /// 結果の設定
+    /// </summary>
+    private void SetResult()
+    {
+        // 結果の判定
         int result = JudgeResult(player.GetHand(), opponent.GetHand());
+        // 結果の反映
         ReflectResult(result);
 
         isStop = true;
@@ -97,22 +117,39 @@ public class GameManager : MonoBehaviour
     {
         Debug.Assert(result >= 0 && result <= 2, "結果の数値が間違っています");
         buttonManager.DisableAllButton();
+        bool isRestart = true;
+
+        // 結果の分岐
         switch (result)
         {
             case 0:
                 // あいこ
-                callSign.SetResult(false);
+                isRestart = false;
+                Debug.Log("GameManager : あいこ");
                 break;
             case 1:
                 // プレイヤーの負け
                 player.Lose();
-                callSign.SetResult(true);
+                Debug.Log("GameManager : 負け");
                 break;
             case 2:
                 // プレイヤーの勝ち
                 opponent.Lose();
-                callSign.SetResult(true);
+                Debug.Log("GameManager : 勝ち");
                 break;
         }
+
+        callSign.SetResult(isRestart);
+    }
+
+    /// <summary>
+    /// 再開
+    /// </summary>
+    private void Restart()
+    {
+        buttonManager.EnableAllButton();
+        callSign.SetCall();
+        stoppedTime = 0.0f;
+        isStop = false;
     }
 }

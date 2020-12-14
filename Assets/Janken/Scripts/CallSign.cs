@@ -22,22 +22,6 @@ public class CallSign : MonoBehaviour
     }
 
     /// <summary>
-    /// 開始合図の設定
-    /// </summary>
-    public void SetStartCall()
-    {
-        callSignText.text = CallText[0];
-    }
-
-    /// <summary>
-    /// あいこの設定
-    /// </summary>
-    public void SetDrawCall()
-    {
-        callSignText.text = CallText[1];
-    }
-
-    /// <summary>
     /// 結果の設定
     /// </summary>
     /// <param name="result">true:再開　false:あいこ</param>
@@ -51,10 +35,12 @@ public class CallSign : MonoBehaviour
         if (isRestart)
         {
             callSignText.text = CallText[0];
+            Debug.Log("CallSign : じゃんけん...");
         }
         else
         {
             callSignText.text = CallText[1];
+            Debug.Log("CallSign : あいこで...");
         }
     }
 }
