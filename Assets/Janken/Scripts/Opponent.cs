@@ -63,22 +63,12 @@ public class Opponent : MonoBehaviour
     }
 
     /// <summary>
-    /// 結果の設定
+    /// 負け
     /// </summary>
-    /// <param name="result">true:勝ち/false:負け</param>
-    public void SetResult(bool result)
+    public void Lose()
     {
-        if (result)
-        {
-            // 加点
-            point.AddPoint();
-            Debug.Log("Player : Win");
-        }
-        else
-        {
-            // 減点
-            point.SubPoint();
-            Debug.Log("Player : lose");
-        }
+        Debug.Log("Opponent : lose");
+        // 減点
+        point.SubPoint();
     }
 }

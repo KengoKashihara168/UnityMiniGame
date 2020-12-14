@@ -1189,6 +1189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e72a4ec6646e49568452c7be8ec52c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StopTime: 3
   buttonManager: {fileID: 299358872}
   player: {fileID: 740568781}
   opponent: {fileID: 1906619038}

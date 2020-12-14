@@ -31,7 +31,7 @@ public class ButtonManager : MonoBehaviour
     /// <summary>
     /// 全てのボタンを有効化
     /// </summary>
-    private void EnableAllButton()
+    public void EnableAllButton()
     {
         Debug.Log("ButtonManager : ボタンの有効化");
         foreach (var button in handButtons)

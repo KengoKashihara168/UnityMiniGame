@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static readonly int MaxHandNum = 3;
+    [SerializeField] private float StopTime = 0.0f;
 
     [SerializeField] private ButtonManager buttonManager = null;
     [SerializeField] private Player player = null;
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CallSign callSign = null;
 
     private bool isStop = false;
+    private float stoppedTime = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +33,7 @@ public class GameManager : MonoBehaviour
         opponent.Initialize();
         callSign.Initialize();
         isStop = false;
+        stoppedTime = 0.0f;
     }
 
     // Update is called once per frame
@@ -42,8 +45,17 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            int result = JudgeResult(player.GetHand(), opponent.GetHand());
-            ReflectResult(result);
+            if (stoppedTime >= StopTime)
+            {
+                buttonManager.EnableAllButton();
+                stoppedTime = 0.0f;
+                isStop = false;
+            }
+            else
+            {
+                stoppedTime += Time.deltaTime;
+                //Debug.Log("GameManager : stoppedTime = " + stoppedTime);
+            }
         }
     }
 
@@ -57,6 +69,10 @@ public class GameManager : MonoBehaviour
         // 手を設定
         player.SetHand(handNum);
         opponent.DecideHand();
+
+        // 結果を設定
+        int result = JudgeResult(player.GetHand(), opponent.GetHand());
+        ReflectResult(result);
 
         isStop = true;
     }
@@ -85,18 +101,17 @@ public class GameManager : MonoBehaviour
         {
             case 0:
                 // あいこ
-                //Initialize();
-                callSign.SetDrawCall();
+                callSign.SetResult(false);
                 break;
             case 1:
-                // 勝ち
-                player.SetResult(true);
-                opponent.SetResult(false);
+                // プレイヤーの負け
+                player.Lose();
+                callSign.SetResult(true);
                 break;
             case 2:
-                // 負け
-                player.SetResult(false);
-                opponent.SetResult(true);
+                // プレイヤーの勝ち
+                opponent.Lose();
+                callSign.SetResult(true);
                 break;
         }
     }
