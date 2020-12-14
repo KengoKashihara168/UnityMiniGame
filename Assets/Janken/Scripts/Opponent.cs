@@ -9,8 +9,11 @@ public class Opponent : MonoBehaviour
 
     [SerializeField] private Text handText = null;
     [SerializeField] private float changeTime = 0.0f;
+    [SerializeField] private Text pointText = null;
+
     private int handNum = 0;
     private float changeCount = 0.0f;
+    private Point point = null;
 
     /// <summary>
     /// 初期化
@@ -19,6 +22,8 @@ public class Opponent : MonoBehaviour
     {
         Debug.Log("Opponent : Initialize");
         handText.text = HandTexts[0];
+        point = pointText.GetComponent<Point>();
+        point.Initialize();
     }
 
     /// <summary>
@@ -55,5 +60,25 @@ public class Opponent : MonoBehaviour
     public int GetHand()
     {
         return handNum;
+    }
+
+    /// <summary>
+    /// 結果の設定
+    /// </summary>
+    /// <param name="result">true:勝ち/false:負け</param>
+    public void SetResult(bool result)
+    {
+        if (result)
+        {
+            // 加点
+            point.AddPoint();
+            Debug.Log("Player : Win");
+        }
+        else
+        {
+            // 減点
+            point.SubPoint();
+            Debug.Log("Player : lose");
+        }
     }
 }

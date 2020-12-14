@@ -91,10 +91,12 @@ public class GameManager : MonoBehaviour
             case 1:
                 // 勝ち
                 player.SetResult(true);
+                opponent.SetResult(false);
                 break;
             case 2:
                 // 負け
                 player.SetResult(false);
+                opponent.SetResult(true);
                 break;
         }
     }
