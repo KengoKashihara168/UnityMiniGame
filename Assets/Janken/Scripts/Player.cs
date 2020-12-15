@@ -48,4 +48,13 @@ public class Player : MonoBehaviour
         // 減点
         point.SubPoint();
     }
+
+    /// <summary>
+    /// ポイントの取得
+    /// </summary>
+    /// <returns>ポイント</returns>
+    public int GetPoint()
+    {
+        return point.GetPoint();
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     private bool isStop = false;
     private float stoppedTime = 0.0f;
+
+    private static bool isPlayerWin = false;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +37,7 @@ public class GameManager : MonoBehaviour
         callSign.Initialize();
         isStop = false;
         stoppedTime = 0.0f;
+        isPlayerWin = false;
     }
 
     // Update is called once per frame
@@ -47,8 +51,25 @@ public class GameManager : MonoBehaviour
         {
             if (stoppedTime >= StopTime)
             {
-                // 再開
-                Restart();
+                if (player.GetPoint() <= 0)
+                {
+                    // リザルトシーンへ
+                    Debug.Log("GameManager : 対戦相手の勝利");
+                    isPlayerWin = false;
+                    SceneManager.LoadScene("JankenResult");
+                }
+                else if (opponent.GetPoint() <= 0)
+                {
+                    // リザルトシーンへ
+                    Debug.Log("GameManager : プレイヤーの勝利");
+                    isPlayerWin = true;
+                    SceneManager.LoadScene("JankenResult");
+                }
+                else
+                {
+                    // 再開
+                    Restart();
+                }
             }
             else
             {
@@ -56,6 +77,15 @@ public class GameManager : MonoBehaviour
                 //Debug.Log("GameManager : stoppedTime = " + stoppedTime);
             }
         }
+    }
+
+    /// <summary>
+    /// プレイヤーの勝利フラグを取得
+    /// </summary>
+    /// <returns></returns>
+    public static bool GetPlayerWinFlag()
+    {
+        return isPlayerWin;
     }
 
     /// <summary>

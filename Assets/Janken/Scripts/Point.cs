@@ -41,4 +41,13 @@ public class Point : MonoBehaviour
         pointText.text = point.ToString();
         Debug.Log("Point : Sub Point");
     }
+
+    /// <summary>
+    /// ポイントの取得
+    /// </summary>
+    /// <returns>ポイント</returns>
+    public int GetPoint()
+    {
+        return point;
+    }
 }
