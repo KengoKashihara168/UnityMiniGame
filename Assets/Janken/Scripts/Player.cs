@@ -50,11 +50,14 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// ポイントの取得
+    /// ポイントが０になったか判定
     /// </summary>
-    /// <returns>ポイント</returns>
-    public int GetPoint()
+    /// <param name="gameEnd">０になった場合に呼び出す関数</param>
+    public void DeterminePoints(GameManager.GameEndDelegate gameEnd)
     {
-        return point.GetPoint();
+        if (point.GetPoint() <= 0)
+        {
+            gameEnd(false);
+        }
     }
 }

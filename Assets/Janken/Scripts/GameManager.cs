@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static readonly int MaxHandNum = 3;
-    [SerializeField] private float StopTime = 0.0f;
+    private readonly float StopTime = 2.0f;
 
     [SerializeField] private ButtonManager buttonManager = null;
     [SerializeField] private Player player = null;
@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
 
     private bool isStop = false;
     private float stoppedTime = 0.0f;
+
+    public delegate void GameEndDelegate(bool isWin);
+    private GameEndDelegate gameEnd;
 
     private static bool isPlayerWin = false;
 
@@ -38,51 +41,27 @@ public class GameManager : MonoBehaviour
         isStop = false;
         stoppedTime = 0.0f;
         isPlayerWin = false;
+
+        var gm = gameObject.GetComponent<GameManager>();
+        gameEnd = gm.ChangeScene;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isStop)
+        // 対戦相手の手を更新
+        UpdateOpponentHand();
+        if (isStop)
         {
-            opponent.UpdateHand();
-        }
-        else
-        {
-            if (stoppedTime >= StopTime)
-            {
-                if (player.GetPoint() <= 0)
-                {
-                    // リザルトシーンへ
-                    Debug.Log("GameManager : 対戦相手の勝利");
-                    isPlayerWin = false;
-                    SceneManager.LoadScene("JankenResult");
-                }
-                else if (opponent.GetPoint() <= 0)
-                {
-                    // リザルトシーンへ
-                    Debug.Log("GameManager : プレイヤーの勝利");
-                    isPlayerWin = true;
-                    SceneManager.LoadScene("JankenResult");
-                }
-                else
-                {
-                    // 再開
-                    Restart();
-                }
-            }
-            else
-            {
-                stoppedTime += Time.deltaTime;
-                //Debug.Log("GameManager : stoppedTime = " + stoppedTime);
-            }
+            // 停止時間の更新
+            UpdateStopTime();
         }
     }
 
     /// <summary>
     /// プレイヤーの勝利フラグを取得
     /// </summary>
-    /// <returns></returns>
+    /// <returns>プレイヤーの勝利フラグ</returns>
     public static bool GetPlayerWinFlag()
     {
         return isPlayerWin;
@@ -100,6 +79,30 @@ public class GameManager : MonoBehaviour
 
         // 結果を設定
         SetResult();
+    }
+
+    /// <summary>
+    /// 対戦相手の手を更新
+    /// </summary>
+    private void UpdateOpponentHand()
+    {
+        if (isStop) return;
+        opponent.UpdateHand();
+    }
+
+    /// <summary>
+    /// 停止時間の更新
+    /// </summary>
+    private void UpdateStopTime()
+    {
+        if (stoppedTime >= StopTime)
+        {
+            SwitchGame();
+        }
+        else
+        {
+            stoppedTime += Time.deltaTime;
+        }
     }
 
     /// <summary>
@@ -173,6 +176,18 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// ゲーム進行の切り替え
+    /// </summary>
+    private void SwitchGame()
+    {
+        player.DeterminePoints(gameEnd);
+        opponent.DeterminePoints(gameEnd);
+
+        // 再開
+        Restart();
+    }
+
+    /// <summary>
     /// 再開
     /// </summary>
     private void Restart()
@@ -181,5 +196,15 @@ public class GameManager : MonoBehaviour
         callSign.SetCall();
         stoppedTime = 0.0f;
         isStop = false;
+    }
+
+    /// <summary>
+    /// リザルトシーンへ遷移
+    /// </summary>
+    /// <param name="isWin">true:プレイヤー勝利　false:プレイヤー敗北</param>
+    private void ChangeScene(bool isWin)
+    {
+        isPlayerWin = isWin;
+        SceneManager.LoadScene("JankenResult");
     }
 }
