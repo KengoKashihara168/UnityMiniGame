@@ -8,8 +8,8 @@ public class Player : MonoBehaviour
     [SerializeField] private Text pointText = null;
 
     private Point point = null;
-
     private Hand hand;
+    public bool isLose { get; private set; }
 
     /// <summary>
     /// 初期化
@@ -22,6 +22,15 @@ public class Player : MonoBehaviour
 
         hand = GetComponent<Hand>();
         hand.Initialize();
+        isLose = false;
+    }
+
+    /// <summary>
+    /// 更新
+    /// </summary>
+    public void UpdateHand()
+    {
+        hand.UpdateHand();
     }
 
     /// <summary>
@@ -41,18 +50,6 @@ public class Player : MonoBehaviour
     {
         Debug.Log("Player : lose");
         // 減点
-        point.SubPoint();
-    }
-
-    /// <summary>
-    /// ポイントが０になったか判定
-    /// </summary>
-    /// <param name="gameEnd">０になった場合に呼び出す関数</param>
-    public void DeterminePoints(GameManager.GameEndDelegate gameEnd)
-    {
-        if (point.GetPoint() <= 0)
-        {
-            gameEnd();
-        }
+        isLose = point.SubPoint();
     }
 }

@@ -10,13 +10,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private ButtonManager buttonManager = null;
     [SerializeField] private Player player = null;
-    [SerializeField] private Opponent opponent = null;
+    [SerializeField] private Player opponent = null;
     [SerializeField] private CallSign callSign = null;
 
     private bool isStop = false;
     private float stoppedTime = 0.0f;
-
-    public delegate void GameEndDelegate();
 
     private static bool isPlayerWin = false;
 
@@ -46,7 +44,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // 対戦相手の手を更新
-        UpdateOpponentHand();
+        UpdateHand();
 
         if (buttonManager.isClick)
         {
@@ -60,7 +58,8 @@ public class GameManager : MonoBehaviour
             UpdateStopTime();
             if (stoppedTime >= StopTime)
             {
-                SwitchGame();
+                // 再開
+                Restart();
             }
         }
     }
@@ -68,9 +67,10 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 対戦相手の手を更新
     /// </summary>
-    private void UpdateOpponentHand()
+    private void UpdateHand()
     {
         if (isStop) return;
+        player.UpdateHand();
         opponent.UpdateHand();
     }
 
@@ -182,24 +182,12 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ゲーム進行の切り替え
-    /// </summary>
-    private void SwitchGame()
-    {
-        GameEndDelegate playerLose = PlayerLose;
-        GameEndDelegate opponentLose = OpponentLose;
-        player.DeterminePoints(playerLose);
-        opponent.DeterminePoints(opponentLose);
-
-        // 再開
-        Restart();
-    }
-
-    /// <summary>
     /// 再開
     /// </summary>
     private void Restart()
     {
+        if (player.isLose) PlayerLose();
+        if (opponent.isLose) OpponentLose();
         buttonManager.EnableAllButton();
         callSign.SetCall();
         stoppedTime = 0.0f;

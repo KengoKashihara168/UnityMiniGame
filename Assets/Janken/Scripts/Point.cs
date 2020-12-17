@@ -32,14 +32,15 @@ public class Point : MonoBehaviour
     }
 
     /// <summary>
-    /// ポイント減算
+    /// ポイントの減算
     /// </summary>
-    public void SubPoint()
+    /// <returns>true:ポイントが０になった / false:ポイントが０ではない</returns>
+    public bool SubPoint()
     {
-        if (point <= 0) return;
         point--;
         pointText.text = point.ToString();
-        Debug.Log("Point : Sub Point");
+        if (point <= 0) return true;
+        return false;
     }
 
     /// <summary>
