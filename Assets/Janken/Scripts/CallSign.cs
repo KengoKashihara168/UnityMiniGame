@@ -18,7 +18,7 @@ public class CallSign : MonoBehaviour
     {
         Debug.Log("CallSign : Initialize");
         callSignText.text = CallText[0];
-        isRestart = false;
+        isRestart         = false;
     }
 
     /// <summary>

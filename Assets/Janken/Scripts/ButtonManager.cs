@@ -7,7 +7,7 @@ public class ButtonManager : MonoBehaviour
 {
     [SerializeField] private Button[] handButtons = null;
 
-    public bool isClick { get; private set; }
+    public bool            isClick   { get; private set; }
     public Hand.JankenHand inputHand { get; private set; }
 
     /// <summary>
@@ -56,7 +56,7 @@ public class ButtonManager : MonoBehaviour
     /// <param name="hand">入力された手</param>
     private void OnClick(Hand.JankenHand hand)
     {
-        Debug.Log("ButtonManager : hand = " + hand);
+        Debug.Log("ButtonManager : onClick hand = " + hand);
         isClick = true;
         this.inputHand = hand;
     }

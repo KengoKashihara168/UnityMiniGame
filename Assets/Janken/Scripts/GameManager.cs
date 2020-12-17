@@ -5,18 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static readonly int MaxHandNum = 3;
-    private readonly float StopTime = 2.0f;
+    public static readonly int   MaxHandNum = 3;    // 手の最大数
+    private readonly float       StopTime   = 2.0f; // 停止時間
 
-    [SerializeField] private ButtonManager buttonManager = null;
-    [SerializeField] private Player player = null;
-    [SerializeField] private Player opponent = null;
-    [SerializeField] private CallSign callSign = null;
+    [SerializeField] private ButtonManager  buttonManager   = null; // ボタン管理
+    [SerializeField] private Player         player          = null; // プレイヤー
+    [SerializeField] private Player         opponent        = null; // 対戦相手
+    [SerializeField] private CallSign       callSign        = null; // コールサイン
 
-    private bool isStop = false;
-    private float stoppedTime = 0.0f;
+    private bool    isStop      = false; // 停止フラグ
+    private float   stoppedTime = 0.0f;  // 停止時間
 
-    private static bool isPlayerWin = false;
+    private static bool isPlayerWin = false; // プレイヤーの勝利フラグ
 
     // Start is called before the first frame update
     void Start()
@@ -31,11 +31,13 @@ public class GameManager : MonoBehaviour
     private void Initialize()
     {
         Debug.Log("GameManager : Initialize");
+        // オブジェクトの初期化呼び出し
         buttonManager.Initialize();
         player.Initialize();
         opponent.Initialize();
         callSign.Initialize();
-        isStop = false;
+        // メンバ変数の初期化
+        isStop      = false;
         stoppedTime = 0.0f;
         isPlayerWin = false;
     }
@@ -46,12 +48,14 @@ public class GameManager : MonoBehaviour
         // 対戦相手の手を更新
         UpdateHand();
 
+        // ボタンがクリックされていたら
         if (buttonManager.isClick)
         {
-            Debug.Log("GameManager : OnClick Button");
+            // ジャンケン開始
             StartJanken();
         }
 
+        // 停止フラグがON担っていれば
         if (isStop)
         {
             // 停止時間の更新
@@ -79,7 +83,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void StartJanken()
     {
-        var input = buttonManager.inputHand;
+        var input  = buttonManager.inputHand;
         var random = Hand.GetRandomHand();
         SetHand(input, random);
         SetResult(input, random);
@@ -118,11 +122,9 @@ public class GameManager : MonoBehaviour
     /// <returns></returns>
     private int JudgeResult(Hand.JankenHand input, Hand.JankenHand randam)
     {
-        int result = -1;
-        int inputNum = Hand.ConvertHandState(input);
+        int inputNum  = Hand.ConvertHandState(input);
         int randomNum = Hand.ConvertHandState(randam);
-
-        result = (inputNum - randomNum + 3) % 3;
+        int result    = (inputNum - randomNum + 3) % 3;
         Debug.Log("GameManager : result = " + result);
 
         return result;
@@ -186,8 +188,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Restart()
     {
-        if (player.isLose) PlayerLose();
+        // 敗北判定
+        if (player.isLose)   PlayerLose();
         if (opponent.isLose) OpponentLose();
+        // リスタート
         buttonManager.EnableAllButton();
         callSign.SetCall();
         stoppedTime = 0.0f;

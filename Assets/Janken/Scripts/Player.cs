@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Text pointText = null;
 
     private Point point = null;
-    private Hand hand;
+    private Hand  hand  = null;
     public bool isLose { get; private set; }
 
     /// <summary>

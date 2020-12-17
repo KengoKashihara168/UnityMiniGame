@@ -7,7 +7,7 @@ public class Point : MonoBehaviour
 {
     private readonly int MaxPoint = 3;
 
-    private int point = 0;
+    private int  point     = 0;
     private Text pointText = null;
 
     /// <summary>
@@ -15,8 +15,8 @@ public class Point : MonoBehaviour
     /// </summary>
     public void Initialize()
     {
-        pointText = GetComponent<Text>();
-        point = MaxPoint;
+        pointText      = GetComponent<Text>();
+        point          = MaxPoint;
         pointText.text = point.ToString();
     }
 
@@ -41,14 +41,5 @@ public class Point : MonoBehaviour
         pointText.text = point.ToString();
         if (point <= 0) return true;
         return false;
-    }
-
-    /// <summary>
-    /// ポイントの取得
-    /// </summary>
-    /// <returns>ポイント</returns>
-    public int GetPoint()
-    {
-        return point;
     }
 }

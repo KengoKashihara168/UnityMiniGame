@@ -13,11 +13,12 @@ public class Hand : MonoBehaviour
         paper, // パー
     }
 
-    private readonly string[] HandTexts = { "グー", "チョキ", "パー" };
-    private readonly float ChangeTime = 0.1f;
+    private readonly string[] HandTexts  = { "グー", "チョキ", "パー" };
+    private readonly float    ChangeTime = 0.1f;
 
-    private int handNum = 0;
     [SerializeField] private Text handText = null;
+
+    private int   handNum     = 0;
     private float changeCount = 0.0f;
 
     /// <summary>
@@ -26,7 +27,7 @@ public class Hand : MonoBehaviour
     public void Initialize()
     {
         Debug.Log("Hand : Initialize");
-        handNum = 0;
+        handNum     = 0;
         changeCount = 0.0f;
     }
 
@@ -41,7 +42,7 @@ public class Hand : MonoBehaviour
         handNum = (handNum + 1) % 3;
 
         handText.text = HandTexts[handNum];
-        changeCount = 0.0f;
+        changeCount   = 0.0f;
     }
 
     /// <summary>
@@ -50,7 +51,7 @@ public class Hand : MonoBehaviour
     /// <param name="hand">手</param>
     public void SetHand(JankenHand hand)
     {
-        int num = ConvertHandState(hand);
+        int num       = ConvertHandState(hand);
         handText.text = HandTexts[num];
     }
 
@@ -60,7 +61,7 @@ public class Hand : MonoBehaviour
     /// <returns></returns>
     public static JankenHand GetRandomHand()
     {
-        int rand = Random.Range(0, GameManager.MaxHandNum);
+        int rand          = Random.Range(0, GameManager.MaxHandNum);
         JankenHand[] hand = { JankenHand.Rock, JankenHand.Scissors, JankenHand.paper };
 
         return hand[rand];
