@@ -5,14 +5,9 @@ using UnityEngine.UI;
 
 public class Opponent : MonoBehaviour
 {
-    private readonly string[] HandTexts = { "グー", "チョキ", "パー" };
-
-    [SerializeField] private Text handText = null;
-    [SerializeField] private float changeTime = 0.0f;
     [SerializeField] private Text pointText = null;
 
-    private int handNum = 0;
-    private float changeCount = 0.0f;
+    private Hand hand = null;
     private Point point = null;
 
     /// <summary>
@@ -21,7 +16,8 @@ public class Opponent : MonoBehaviour
     public void Initialize()
     {
         Debug.Log("Opponent : Initialize");
-        handText.text = HandTexts[0];
+        hand = GetComponent<Hand>();
+        hand.Initialize();
         point = pointText.GetComponent<Point>();
         point.Initialize();
     }
@@ -31,35 +27,17 @@ public class Opponent : MonoBehaviour
     /// </summary>
     public void UpdateHand()
     {
-        changeCount += Time.deltaTime;
-        if (changeCount < changeTime) return;
-
-        handNum = (handNum + 1) % 3;
-        //Debug.Log("Opponent : handNum = " + handNum);
-
-        handText.text = HandTexts[handNum];
-        changeCount = 0.0f;
+        hand.UpdateHand();
     }
 
     /// <summary>
-    /// 手を決定
+    /// 手の設定
     /// </summary>
-    public void DecideHand()
+    /// <param name="jankenHand">ジャンケンの手</param>
+    public void SetHand(Hand.JankenHand jankenHand)
     {
-        int rand = Random.Range(0, GameManager.MaxHandNum);
-        Debug.Log("Opponent : rand = " + rand);
-        rand = 0;
-        handNum = rand;
-        handText.text = HandTexts[rand];
-    }
-
-    /// <summary>
-    /// 手の取得
-    /// </summary>
-    /// <returns>手の数字</returns>
-    public int GetHand()
-    {
-        return handNum;
+        Debug.Log("Opponent : " + jankenHand);
+        hand.SetHand(jankenHand);
     }
 
     /// <summary>
@@ -80,7 +58,7 @@ public class Opponent : MonoBehaviour
     {
         if (point.GetPoint() <= 0)
         {
-            gameEnd(false);
+            gameEnd();
         }
     }
 }

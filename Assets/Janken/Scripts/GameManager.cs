@@ -16,8 +16,7 @@ public class GameManager : MonoBehaviour
     private bool isStop = false;
     private float stoppedTime = 0.0f;
 
-    public delegate void GameEndDelegate(bool isWin);
-    private GameEndDelegate gameEnd;
+    public delegate void GameEndDelegate();
 
     private static bool isPlayerWin = false;
 
@@ -41,9 +40,6 @@ public class GameManager : MonoBehaviour
         isStop = false;
         stoppedTime = 0.0f;
         isPlayerWin = false;
-
-        var gm = gameObject.GetComponent<GameManager>();
-        gameEnd = gm.ChangeScene;
     }
 
     // Update is called once per frame
@@ -51,34 +47,22 @@ public class GameManager : MonoBehaviour
     {
         // 対戦相手の手を更新
         UpdateOpponentHand();
+
+        if (buttonManager.isClick)
+        {
+            Debug.Log("GameManager : OnClick Button");
+            StartJanken();
+        }
+
         if (isStop)
         {
             // 停止時間の更新
             UpdateStopTime();
+            if (stoppedTime >= StopTime)
+            {
+                SwitchGame();
+            }
         }
-    }
-
-    /// <summary>
-    /// プレイヤーの勝利フラグを取得
-    /// </summary>
-    /// <returns>プレイヤーの勝利フラグ</returns>
-    public static bool GetPlayerWinFlag()
-    {
-        return isPlayerWin;
-    }
-
-    /// <summary>
-    /// 手を決めるボタンが押された時のイベントハンドラ
-    /// </summary>
-    /// <param name="handNum">手の数字</param>
-    public void OnHandButton(int handNum)
-    {
-        Debug.Assert(handNum >= 0 && handNum <= MaxHandNum - 1, "入力値が不正です");
-        // 手を設定
-        SetHand(handNum);
-
-        // 結果を設定
-        SetResult();
     }
 
     /// <summary>
@@ -91,61 +75,63 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 停止時間の更新
+    /// ジャンケンの開始
     /// </summary>
-    private void UpdateStopTime()
+    private void StartJanken()
     {
-        if (stoppedTime >= StopTime)
-        {
-            SwitchGame();
-        }
-        else
-        {
-            stoppedTime += Time.deltaTime;
-        }
+        var input = buttonManager.inputHand;
+        var random = Hand.GetRandomHand();
+        SetHand(input, random);
+        SetResult(input, random);
+        StopGame();
     }
 
     /// <summary>
     /// 手の設定
     /// </summary>
-    /// <param name="handNum">手の数字</param>
-    private void SetHand(int handNum)
+    /// <param name="input">入力された手</param>
+    /// <param name="random">ランダムな手</param>
+    private void SetHand(Hand.JankenHand input, Hand.JankenHand random)
     {
-        // プレイヤー
-        player.SetHand(handNum);
-        // 対戦相手
-        opponent.DecideHand();
+        player.SetHand(input);
+        opponent.SetHand(random);
     }
 
     /// <summary>
     /// 結果の設定
     /// </summary>
-    private void SetResult()
+    /// <param name="input">入力された手</param>
+    /// <param name="randam">ランダムな手</param>
+    private void SetResult(Hand.JankenHand input, Hand.JankenHand randam)
     {
         // 結果の判定
-        int result = JudgeResult(player.GetHand(), opponent.GetHand());
+        int result = JudgeResult(input, randam);
         // 結果の反映
         ReflectResult(result);
-
-        isStop = true;
     }
 
     /// <summary>
-    /// 結果判定
+    /// 結果の判定
     /// </summary>
-    /// <param name="playerNum">プレイヤーの手の数字</param>
-    /// <param name="opponentNum">対戦相手の手の数字</param>
+    /// <param name="input">入力された手</param>
+    /// <param name="randam">ランダムな手</param>
     /// <returns></returns>
-    private int JudgeResult(int playerNum, int opponentNum)
+    private int JudgeResult(Hand.JankenHand input, Hand.JankenHand randam)
     {
         int result = -1;
-        result = (playerNum - opponentNum + 3) % 3;
+        int inputNum = Hand.ConvertHandState(input);
+        int randomNum = Hand.ConvertHandState(randam);
+
+        result = (inputNum - randomNum + 3) % 3;
         Debug.Log("GameManager : result = " + result);
 
         return result;
     }
 
-    // 結果の反映
+    /// <summary>
+    /// 結果の反映
+    /// </summary>
+    /// <param name="result">ジャンケンの結果</param>
     private void ReflectResult(int result)
     {
         Debug.Assert(result >= 0 && result <= 2, "結果の数値が間違っています");
@@ -176,12 +162,34 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// ゲームの一時停止
+    /// </summary>
+    private void StopGame()
+    {
+        isStop = true;
+        buttonManager.DisableAllButton();
+    }
+
+    /// <summary>
+    /// 停止時間の更新
+    /// </summary>
+    private void UpdateStopTime()
+    {
+        if (stoppedTime < StopTime)
+        {
+            stoppedTime += Time.deltaTime;
+        }
+    }
+
+    /// <summary>
     /// ゲーム進行の切り替え
     /// </summary>
     private void SwitchGame()
     {
-        player.DeterminePoints(gameEnd);
-        opponent.DeterminePoints(gameEnd);
+        GameEndDelegate playerLose = PlayerLose;
+        GameEndDelegate opponentLose = OpponentLose;
+        player.DeterminePoints(playerLose);
+        opponent.DeterminePoints(opponentLose);
 
         // 再開
         Restart();
@@ -199,12 +207,29 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// リザルトシーンへ遷移
+    /// プレイヤーが敗北時に呼ばれる
     /// </summary>
-    /// <param name="isWin">true:プレイヤー勝利　false:プレイヤー敗北</param>
-    private void ChangeScene(bool isWin)
+    private void PlayerLose()
     {
-        isPlayerWin = isWin;
+        isPlayerWin = false;
         SceneManager.LoadScene("JankenResult");
+    }
+
+    /// <summary>
+    /// 対戦相手が敗北時に呼ばれる
+    /// </summary>
+    private void OpponentLose()
+    {
+        isPlayerWin = true;
+        SceneManager.LoadScene("JankenResult");
+    }
+
+    /// <summary>
+    /// プレイヤーの勝利フラグを取得
+    /// </summary>
+    /// <returns>プレイヤーの勝利フラグ</returns>
+    public static bool GetPlayerWinFlag()
+    {
+        return isPlayerWin;
     }
 }

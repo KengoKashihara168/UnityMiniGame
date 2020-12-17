@@ -7,8 +7,9 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private Text pointText = null;
 
-    private int handNum = 0; // 手を示す数字
     private Point point = null;
+
+    private Hand hand;
 
     /// <summary>
     /// 初期化
@@ -18,25 +19,19 @@ public class Player : MonoBehaviour
         Debug.Log("Player : Initialize");
         point = pointText.GetComponent<Point>();
         point.Initialize();
+
+        hand = GetComponent<Hand>();
+        hand.Initialize();
     }
 
     /// <summary>
-    /// プレイヤーの手を設定
+    /// 手の設定
     /// </summary>
-    /// <param name="hand">入力された手</param>
-    public void SetHand(int hand)
+    /// <param name="jankenHand">ジャンケンの手</param>
+    public void SetHand(Hand.JankenHand jankenHand)
     {
-        Debug.Log("Player : Hand = " + hand);
-        handNum = hand;
-    }
-
-    /// <summary>
-    /// 手の取得
-    /// </summary>
-    /// <returns>手の数字</returns>
-    public int GetHand()
-    {
-        return handNum;
+        Debug.Log("Player : " + jankenHand);
+        hand.SetHand(jankenHand);
     }
 
     /// <summary>
@@ -57,7 +52,7 @@ public class Player : MonoBehaviour
     {
         if (point.GetPoint() <= 0)
         {
-            gameEnd(false);
+            gameEnd();
         }
     }
 }
